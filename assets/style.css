@@ -1,0 +1,235 @@
+/* ===== GLOBAL THEME ===== */
+:root {
+  --brand:#00E0A4;
+  --brand-2:#0EA5E9;
+  --bg:#0E1117;
+  --panel:#151a23;
+  --muted:#9aa0a6;
+  --radius:16px;
+  --ring:rgba(0,224,164,.35);
+}
+
+html, body, [class^="css"] {
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #111;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{height:10px;width:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.25)}
+
+/* ===== NAVBAR (Glass) ===== */
+.navbar {
+  position: sticky; top:0; z-index:1000;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 30px; margin:-1rem -1rem 1.2rem -1rem;
+  backdrop-filter:saturate(140%) blur(8px);
+  background: linear-gradient(180deg, rgba(10,12,16,.75), rgba(10,12,16,.35));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; }
+.brand .dot { width:12px; height:12px; border-radius:99px; background:var(--brand); box-shadow:0 0 4px var(--ring); }
+.nav-actions a { color:var(--muted); text-decoration:none; margin-left:20px; font-weight:600; }
+.nav-actions a:hover { color:#fff }
+
+/* ===== HERO (Gradient Card) ===== */
+.hero {
+  margin:0 0 20px 0; padding:40px 28px;
+  border-radius:var(--radius);
+  background: radial-gradient(1200px 600px at -10% -10%, rgba(0,224,164,.16), transparent 60%),
+              linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+.hero h1 { margin:0; font-weight:800; font-size:34px; }
+.hero p { color:var(--muted); margin-top:6px; font-size:15px }
+
+/* ===== CARD (glass + hover) ===== */
+.card {
+  position:relative;
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:var(--radius);
+  padding:18px;
+  transition:.18s ease;
+  box-shadow:0 0 0 rgba(0,224,164,0);
+}
+.card:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(0,0,0,.25), 0 0 1px var(--ring) inset; }
+
+/* ===== BUTTON (gradient) ===== */
+.stButton>button {
+  background:linear-gradient(90deg, var(--brand), var(--brand-2)) !important;
+  color:#00130E !important;
+  border:none !important;
+  border-radius:12px !important;
+  padding:.65rem 1.05rem !important;
+  font-weight:800 !important;
+  box-shadow:0 8px 24px rgba(0,224,164,.22);
+  transition:.25s ease;
+}
+.stButton>button:hover { filter:brightness(1.06); transform:translateY(-1px) }
+
+/* Textarea */
+textarea { border-radius:12px !important }
+
+/* PILL (result tag) */
+.pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:999px; font-weight:800;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+}
+.pill .dot { width:10px; height:10px; border-radius:999px; display:inline-block; }
+.pill.pos .dot { background:#2bd576 }
+.pill.neu .dot { background:#9aa0a6 }
+.pill.neg .dot { background:#ff6b6b }
+
+/* DataFrame */
+.stDataFrame,.stTable { border-radius:12px; overflow:hidden }
+
+/* Animation Fade-in */
+.fade-in { animation:fade .25s ease both }
+@keyframes fade { from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none} }
+
+/* Container */
+.block-container { padding-top:0.8rem }
+/* ปุ่มกด: pulse ตอน hover */
+.stButton > button {
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.stButton > button:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,224,164,.25);
+}
+
+/* input/textarea: โฟกัสแล้วเรือง */
+textarea, input[type="text"] {
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+textarea:focus, input[type="text"]:focus {
+  box-shadow: 0 0 0 3px rgba(0,194,255,.20);
+  border-color: rgba(0,194,255,.55) !important;
+}
+
+/* tabs underline ลื่น ๆ */
+[data-baseweb="tab-list"] button[role="tab"] {
+  position: relative;
+  transition: color .2s ease;
+}
+[data-baseweb="tab-list"] button[role="tab"][aria-selected="true"]::after {
+  content: ""; position: absolute; left: 8px; right: 8px; bottom: -6px;
+  height: 3px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  animation: tabLine .25s ease;
+}
+@keyframes tabLine { from {transform: scaleX(0);} to {transform: scaleX(1);} }
+
+/* การ์ดค่อย ๆ โผล่ */
+.card { opacity: 0; transform: translateY(6px); animation: fadeUp .25s ease forwards; }
+@keyframes fadeUp { to {opacity: 1; transform: none;} }
+/* ===== Tab Transition Animation ===== */
+.anim-enter {
+  animation: tabEnter .35s cubic-bezier(.2,.6,.2,1) both;
+  will-change: transform, opacity;
+}
+@keyframes tabEnter {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ถ้าอยากให้สไลด์แนวนอน (ทางเลือก) */
+.anim-slide-left  { animation: tabSlideLeft  .35s cubic-bezier(.2,.6,.2,1) both; }
+.anim-slide-right { animation: tabSlideRight .35s cubic-bezier(.2,.6,.2,1) both; }
+
+@keyframes tabSlideLeft {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes tabSlideRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: none; }
+}
+/* ——— Fix top spacing / hide Streamlit header ——— */
+header[data-testid="stHeader"] {
+  height: 0 !important;
+  background: transparent !important;
+}
+header[data-testid="stHeader"] * {
+  display: none !important;
+}
+
+/* ลด padding ของเนื้อหาหลักให้ชิดด้านบน */
+.block-container {
+  padding-top: 0 !important; /* เดิมเราเคยตั้ง 0.8rem เอาออกเพื่อให้ชิดสุด */
+}
+
+/* ให้ navbar ชิดบนจริง ๆ */
+.navbar { top: 0 !important; }
+
+/* (ถ้าต้องการ) ซ่อนเมนู/ฟุตเตอร์เริ่มต้นของ Streamlit */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+
+/* ================= LOGIN PAGE ================= */
+
+/* ================= LOGIN PAGE ================= */
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eaf6ff, #ffffff);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 560px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: #ffffff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,.12);
+}
+
+.login-left {
+  background: linear-gradient(135deg, #0077ff, #00c6ff);
+  color: #ffffff;
+  padding: 64px;
+}
+
+.login-left h1 {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.login-left p {
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: .95;
+}
+
+.login-right {
+  padding: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+

@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scikit-learn
+pythainlp
+matplotlib
+plotly
+streamlit
+joblib
+python-dotenv
+gspread
+google-auth
