@@ -1,3 +1,4 @@
 # secrets
 *.json
 .env
+src/dashboard/retail-sentiment-dc62dc422965.json
