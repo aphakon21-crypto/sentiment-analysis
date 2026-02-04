@@ -1,7 +1,3 @@
-import streamlit as st
-
-if "login" not in st.session_state or not st.session_state.login:
-    st.switch_page("login.py")
 # src/dashboard/app.py
 # -*- coding: utf-8 -*-
 
@@ -49,10 +45,14 @@ def export_df_to_gsheet(df, spreadsheet_id: str, worksheet_name: str, clear_firs
     scope = ["https://spreadsheets.google.com/feeds",
              "https://www.googleapis.com/auth/drive"]
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name(
-        "src/dashboard/credentials.json", scope
-    )
-    client = gspread.authorize(creds)
+    import streamlit as st
+from google.oauth2 import service_account
+
+# โหลด credentials จาก Streamlit Secrets
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+
 
     # เปิด Spreadsheet
     sh = client.open_by_key(spreadsheet_id)
