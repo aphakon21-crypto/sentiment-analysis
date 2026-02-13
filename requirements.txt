@@ -11,3 +11,4 @@ joblib
 python-dotenv
 gspread
 google-auth
+altair
