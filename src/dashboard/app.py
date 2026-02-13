@@ -45,14 +45,10 @@ def export_df_to_gsheet(df, spreadsheet_id: str, worksheet_name: str, clear_firs
     scope = ["https://spreadsheets.google.com/feeds",
              "https://www.googleapis.com/auth/drive"]
 
-    import streamlit as st
-from google.oauth2 import service_account
-
-# โหลด credentials จาก Streamlit Secrets
-credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-)
-
+    creds = ServiceAccountCredentials.from_json_keyfile_name(
+        "src/dashboard/credentials.json", scope
+    )
+    client = gspread.authorize(creds)
 
     # เปิด Spreadsheet
     sh = client.open_by_key(spreadsheet_id)
@@ -60,7 +56,7 @@ credentials = service_account.Credentials.from_service_account_info(
     try:
         worksheet = sh.worksheet(worksheet_name)
         if clear_first:
-            worksheet.clear()
+           worksheet.clear()
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=worksheet_name, rows="100", cols="20")
 
@@ -275,8 +271,19 @@ def make_summary(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # ============================== NAV / HERO ==============================
-def banner():
-    banner_path = ROOT / "assets" / "banner.png"
+def banner(page_name):
+
+    banner_map = {
+        "analyze": "banner_analyze.png",
+        "summary": "banner_summary.png",
+        "settings": "banner_settings.png",
+        "profile": "banner_profile.png",
+    }
+
+    filename = banner_map.get(page_name, "banner.png")
+
+    banner_path = ROOT / "assets" / filename
+
     if not banner_path.exists():
         return
 
@@ -297,6 +304,7 @@ def banner():
         """,
         unsafe_allow_html=True
     )
+
 
 def navbar():
     with st.container():
@@ -628,17 +636,23 @@ def main():
     
     sidebar()
     navbar()
-    hero()
-    banner() 
+    hero() 
 
     tab1, tab2, tab3, tab4 = st.tabs(["🔍 Analyze", "📊 Summary", "⚙️ Settings", "👤 Profile"])
     with tab1:
+        banner("analyze")
         page_analyze()
+
     with tab2:
+        banner("summary")
         page_summary()
+
     with tab3:
+        banner("settings")
         page_settings()
+
     with tab4:
+        banner("profile")
         show_user_page()
 
 if __name__ == "__main__":
