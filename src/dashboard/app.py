@@ -56,7 +56,7 @@ def export_df_to_gsheet(df, spreadsheet_id: str, worksheet_name: str, clear_firs
     try:
         worksheet = sh.worksheet(worksheet_name)
         if clear_first:
-           worksheet.clear()
+            worksheet.clear()
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=worksheet_name, rows="100", cols="20")
 
