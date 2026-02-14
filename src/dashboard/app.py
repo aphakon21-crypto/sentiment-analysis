@@ -79,10 +79,7 @@ def test_gsheet_connection(spreadsheet_url_or_id, worksheet_name=None):
             "https://www.googleapis.com/auth/drive"
         ]
 
-        creds = ServiceAccountCredentials.from_json_keyfile_name(
-            "src/dashboard/credentials.json",
-            scope
-        )
+        from_json_dict(st.secrets["gcp_service_account"], scope)
 
         client = gspread.authorize(creds)
         client.open_by_key(spreadsheet_id)
