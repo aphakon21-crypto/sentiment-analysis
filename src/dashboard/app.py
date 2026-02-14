@@ -45,9 +45,8 @@ def export_df_to_gsheet(df, spreadsheet_id: str, worksheet_name: str, clear_firs
     scope = ["https://spreadsheets.google.com/feeds",
              "https://www.googleapis.com/auth/drive"]
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name(
-        "src/dashboard/credentials.json", scope
-    )
+    creds = ServiceAccountCredentials.from_json_dict(
+        st.secrets["gcp_service_account"], scope)
     client = gspread.authorize(creds)
 
     # เปิด Spreadsheet
@@ -79,7 +78,10 @@ def test_gsheet_connection(spreadsheet_url_or_id, worksheet_name=None):
             "https://www.googleapis.com/auth/drive"
         ]
 
-        from_json_dict(st.secrets["gcp_service_account"], scope)
+        creds = ServiceAccountCredentials.from_json_keyfile_name(
+            "src/dashboard/credentials.json",
+            scope
+        )
 
         client = gspread.authorize(creds)
         client.open_by_key(spreadsheet_id)
